@@ -465,17 +465,23 @@
         <div class="form-group"><label>Teléfono</label><input type="tel" name="telefono" placeholder="+56 9 0000 0000"/></div>
         <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="tu@email.com" required/></div>
       </div>
-      <div class="form-group">
-        <label>Producto de interés</label>
-        <select name="producto">
-          <option value="">Selecciona una opción</option>
-          <option>Saco de Polipropileno 25 kg</option>
-          <option>Consulta general</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Producto de interés</label>
+          <select name="producto">
+            <option value="">Selecciona una opción</option>
+            <option>Saco de Polipropileno 25 kg</option>
+            <option>Consulta general</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cantidad estimada (unidades)</label>
+          <input type="number" name="cantidad" min="1" placeholder="Ej: 3000"/>
+        </div>
       </div>
       <div class="form-group">
         <label>Mensaje</label>
-        <textarea name="mensaje" placeholder="Cuéntanos tu necesidad: cantidad estimada, frecuencia de pedido, destino de entrega…"></textarea>
+        <textarea name="mensaje" placeholder="Cuéntanos: frecuencia de pedido, destino de entrega, condiciones especiales…"></textarea>
       </div>
       <input type="hidden" name="origen" value="santamorita.cl"/>
       <input type="hidden" name="asunto" value="Nueva cotización — Santa Morita"/>
