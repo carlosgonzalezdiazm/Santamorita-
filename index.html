@@ -873,131 +873,163 @@
   </div>
 </footer>
 
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  reveals.forEach(r => obs.observe(r));
+<div style="font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#1a2744;max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e8ecf2;">
 
-  /* Switch de miniaturas en card de producto */
-  const thumbs = document.querySelectorAll('.prod-thumb');
-  const mainImg = document.getElementById('prodMainImg');
-  thumbs.forEach(t => {
-    t.addEventListener('click', () => {
-      const src = t.getAttribute('data-img');
-      if (mainImg && src) {
-        mainImg.style.opacity = '0';
-        setTimeout(() => { mainImg.src = src; mainImg.style.opacity = '1'; }, 150);
-      }
-      thumbs.forEach(x => { x.classList.remove('active'); x.style.borderColor = 'rgba(255,255,255,.45)'; });
-      t.classList.add('active');
-      t.style.borderColor = '#ffffff';
-    });
-  });
+  <div style="background:#1a2744;padding:30px 34px;color:#ffffff;">
+    <div style="font-size:11px;letter-spacing:3px;color:#c8d0de;text-transform:uppercase;margin-bottom:6px;">
+      Importación & Distribución · Chile
+    </div>
+    <div style="font-size:25px;font-weight:700;letter-spacing:2px;">
+      SANTA MORITA
+    </div>
+  </div>
 
+  <div style="padding:34px;">
 
-  /* ===== Envío del formulario al webhook de Make.com ===== */
-  const form   = document.getElementById('formCotizacion');
-  const status = document.getElementById('formStatus');
+    <div style="font-size:13px;letter-spacing:2px;color:#5a6680;text-transform:uppercase;margin-bottom:8px;">
+      Cotización automática
+    </div>
 
-  function showStatus(msg, color){
-    if(!status) return;
-    status.style.display = 'block';
-    status.style.color = color || '';
-    status.innerHTML = msg;
-    status.scrollIntoView({behavior:'smooth', block:'center'});
-  }
+    <div style="font-size:26px;font-weight:700;margin-bottom:20px;line-height:1.2;">
+      Hola {{1.nombre}},
+    </div>
 
-  if (form) {
-    form.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
+    <div style="font-size:15px;line-height:1.7;color:#3a4f82;margin-bottom:26px;">
+      Gracias por contactar a Santa Morita. A continuación encontrarás el detalle de tu solicitud y una estimación de precio para sacos de polipropileno de 25 kg. El despacho se cotiza por separado según ciudad o región de entrega.
+    </div>
 
-      // Validación: muestra mensaje claro de qué falta
-      if (!form.checkValidity()) {
-        const firstInvalid = form.querySelector(':invalid');
-        let campoFalta = 'un campo obligatorio';
-        if (firstInvalid) {
-          const lbl = firstInvalid.closest('.cp-group')?.querySelector('label')
-                   || firstInvalid.closest('.form-group')?.querySelector('label');
-          if (lbl) campoFalta = lbl.textContent.replace('*','').trim();
-          else if (firstInvalid.type === 'checkbox') campoFalta = 'aceptar la política de privacidad';
-          firstInvalid.focus();
-          if (firstInvalid.scrollIntoView) firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
-        }
-        showStatus('⚠️ Falta completar: <strong>' + campoFalta + '</strong>', '#b00020');
-        return;
-      }
+    <div style="background:#f7f8fb;border-left:4px solid #1a2744;padding:20px 24px;margin-bottom:28px;">
+      <div style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#5a6680;margin-bottom:14px;">
+        Resumen de tu solicitud
+      </div>
 
-      const webhook = form.getAttribute('data-webhook');
-      if (!webhook || webhook.includes('REEMPLAZA_CON_TU_WEBHOOK')) {
-        showStatus('⚠️ Falta configurar la URL del webhook de Make.com en el atributo data-webhook del formulario.', '#b00020');
-        return;
-      }
+      <table style="width:100%;font-size:14px;border-collapse:collapse;">
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;width:145px;">Nombre</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.nombre}}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;">Rubro</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.rubro}}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;">Teléfono</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.telefono}}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;">Correo</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.email}}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;">Producto</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.producto}}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;">Cantidad</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.cantidad_formateada}} unidades</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;">Ciudad / región</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.ciudad}}</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 0;color:#5a6680;vertical-align:top;">Mensaje</td>
+          <td style="padding:5px 0;color:#1a2744;font-weight:600;">{{1.mensaje}}</td>
+        </tr>
+      </table>
+    </div>
 
-      const btn = form.querySelector('button[type="submit"]');
-      const originalText = btn ? btn.innerHTML : '';
-      if (btn) { btn.disabled = true; btn.innerHTML = 'Enviando…'; }
-      showStatus('Enviando tu solicitud…', '');
+    <div style="background:#1a2744;color:#ffffff;padding:28px 24px;margin-bottom:28px;text-align:center;border-radius:4px;">
+      <div style="font-size:11px;letter-spacing:2px;color:#c8d0de;text-transform:uppercase;margin-bottom:8px;">
+        Total estimado
+      </div>
 
-      // Construimos el payload con todos los campos del formulario
-      const data = Object.fromEntries(new FormData(form).entries());
+      <div style="font-size:14px;color:#c8d0de;margin-bottom:8px;">
+        {{1.cantidad_formateada}} unidades × {{1.precio_unitario_formateado}} c/u
+      </div>
 
-      // Normalización para Make/Formspree
-      data.fecha = new Date().toISOString();
-      data.rubro = (data.rubro || '').trim();
+      <div style="font-size:40px;font-weight:800;letter-spacing:1px;line-height:1.1;">
+        {{1.total_estimado_formateado}}
+      </div>
 
-      // Compatibilidad: si en Make todavía aparece "empresa", enviamos el mismo valor.
-      // En Google Sheets debes mapear empresa/rubro hacia la columna Rubro (C).
-      data.empresa = data.rubro;
+      <div style="font-size:12px;color:#c8d0de;margin-top:10px;">
+        IVA incluido · Despacho aparte
+      </div>
+    </div>
 
-      // Cálculo correcto de cotización
-      // Precio normal: $160 IVA incluido
-      // Precio mayorista desde 10.000 unidades: $155 IVA incluido
-      // Costo: $95 IVA incluido
-      const cantidad = parseInt(String(data.cantidad || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const precioUnitario = cantidad >= 10000 ? 155 : 160;
-      const costoUnitario = 95;
-      const totalEstimado = cantidad * precioUnitario;
-      const costoTotal = cantidad * costoUnitario;
-      const gananciaReal = (totalEstimado - costoTotal) / 1.19;
-      const gananciaPct = totalEstimado > 0 ? gananciaReal / totalEstimado : 0;
+    <table style="width:100%;border-collapse:collapse;margin-bottom:28px;font-size:14px;">
+      <thead>
+        <tr style="background:#1a2744;color:#ffffff;">
+          <th style="padding:14px 16px;text-align:left;font-weight:600;">Detalle</th>
+          <th style="padding:14px 16px;text-align:right;font-weight:600;">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #e8ecf2;">
+          <td style="padding:15px 16px;color:#5a6680;">Precio unitario aplicado</td>
+          <td style="padding:15px 16px;text-align:right;color:#1a2744;font-size:17px;font-weight:700;">{{1.precio_unitario_formateado}}</td>
+        </tr>
+        <tr style="border-bottom:1px solid #e8ecf2;background:#f7f8fb;">
+          <td style="padding:15px 16px;color:#5a6680;">Cantidad solicitada</td>
+          <td style="padding:15px 16px;text-align:right;color:#1a2744;font-size:17px;font-weight:700;">{{1.cantidad_formateada}} unidades</td>
+        </tr>
+        <tr style="border-bottom:1px solid #e8ecf2;">
+          <td style="padding:15px 16px;color:#5a6680;">Total estimado</td>
+          <td style="padding:15px 16px;text-align:right;color:#0f5132;font-size:18px;font-weight:800;">{{1.total_estimado_formateado}}</td>
+        </tr>
+      </tbody>
+    </table>
 
-      const formatoCLP = (valor) => '$' + Math.round(valor || 0).toLocaleString('es-CL');
+    <div style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#5a6680;margin-bottom:12px;">
+      Tabla de precios
+    </div>
 
-      data.cantidad = cantidad;
-      data.precio_unitario = precioUnitario;
-      data.total_estimado = totalEstimado;
-      data.costo_total = costoTotal;
-      data.ganancia_real = Math.round(gananciaReal);
-      data.ganancia_porcentaje = (gananciaPct * 100).toFixed(1) + '%';
-      data.total_estimado_formateado = formatoCLP(totalEstimado);
-      data.ganancia_real_formateada = formatoCLP(gananciaReal);
+    <table style="width:100%;border-collapse:collapse;margin-bottom:28px;font-size:14px;">
+      <thead>
+        <tr style="background:#1a2744;color:#ffffff;">
+          <th style="padding:14px 16px;text-align:left;font-weight:600;">Cantidad</th>
+          <th style="padding:14px 16px;text-align:right;font-weight:600;">Valor unitario</th>
+          <th style="padding:14px 16px;text-align:right;font-weight:600;">IVA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #e8ecf2;">
+          <td style="padding:16px;color:#1a2744;font-weight:600;">Hasta 9.999 unidades</td>
+          <td style="padding:16px;text-align:right;color:#1a2744;font-size:18px;font-weight:700;">$160</td>
+          <td style="padding:16px;text-align:right;color:#5a6680;">Incluido</td>
+        </tr>
+        <tr style="background:#f7f8fb;">
+          <td style="padding:16px;color:#1a2744;font-weight:600;">Desde 10.000 unidades</td>
+          <td style="padding:16px;text-align:right;color:#1a2744;font-size:18px;font-weight:700;">$155</td>
+          <td style="padding:16px;text-align:right;color:#5a6680;">Incluido</td>
+        </tr>
+      </tbody>
+    </table>
 
-      // También actualizamos los hidden inputs, útil si cambias a Formspree nativo.
-      Object.keys(data).forEach((key) => {
-        const input = form.querySelector(`[name="${key}"]`);
-        if (input) input.value = data[key];
-      });
+    <div style="background:#eef2f8;border:1px solid #d8e0ed;padding:18px 20px;margin-bottom:28px;font-size:14px;color:#3a4f82;line-height:1.6;">
+      📦 <strong style="color:#1a2744;">Los precios incluyen IVA.</strong><br>
+      El despacho se cotiza aparte según la ciudad o región de destino. Para coordinar dirección de entrega, disponibilidad y forma de pago, responde directamente a este correo.
+    </div>
 
-      try {
-        const res = await fetch(webhook, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+    <div style="font-size:14px;line-height:1.7;color:#3a4f82;margin-bottom:24px;">
+      Trabajamos con stock disponible desde Hijuelas, Región de Valparaíso, y despachamos a todo Chile.
+    </div>
 
-        form.reset();
-        showStatus('✅ ¡Gracias! Recibimos tu solicitud. En aproximadamente <strong>4 minutos</strong> te llegará tu presupuesto desde <strong>contacto@santamorita.cl</strong>. Revisa también tu carpeta de spam.', '#0a7a32');
-      } catch (err) {
-        console.error(err);
-        showStatus('❌ No pudimos enviar tu solicitud. Inténtalo nuevamente o escríbenos a contacto@santamorita.cl.', '#b00020');
-      } finally {
-        if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
-      }
-    });
-  }
-</script>
-</body>
-</html>
+    <table style="width:100%;border-top:1px solid #e8ecf2;padding-top:20px;margin-top:8px;">
+      <tr>
+        <td style="padding-top:16px;font-size:13px;color:#5a6680;line-height:1.7;">
+          <strong style="color:#1a2744;">Santa Morita Importación</strong><br>
+          contacto@santamorita.cl<br>
+          Hijuelas, Región de Valparaíso · Chile<br>
+          <a href="https://www.santamorita.cl" style="color:#1a2744;text-decoration:underline;">www.santamorita.cl</a>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+  <div style="background:#f7f8fb;padding:15px 32px;font-size:11px;color:#9aa5b8;text-align:center;letter-spacing:.5px;">
+    Este correo fue enviado automáticamente. Responde directamente para conversar con nuestro equipo.
+  </div>
+
+</div>
